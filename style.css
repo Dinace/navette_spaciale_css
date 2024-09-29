@@ -1,0 +1,366 @@
+/*Ici, on va créer des variables pour les utiliser plus tard. Les couleurs seront dans des variables. On les déclare, puis on les appelle plus tard avec var(--color1)*/
+:root {
+  --color1: #ede4d0;
+  --color2: pink;
+  --color3: #6e397b;
+  --color4: rgb(18, 19, 25);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Cette ligne empêche de scroller et d'avoir des problèmes avec nos futures boites*/
+}
+
+body {
+  background: url(./assets/img/bg.jpg) center/cover;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--color1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /*Tout ce qui dépasse le body, tu le cache. On peut l'utiliser pour contenir l'élément à l'intérieur d'un autre.*/
+}
+
+.Card {
+  background: #11101075;
+  width: calc(
+    100% - 50px
+  ); /* La méthode cal fait un calcul. Elle dit ici par exemple que la largeur sera de 100% mais enlève moi 50px sur les côtés, cad 25px à gauche et à droite*/
+  padding: 20px 20px 6px;
+  box-shadow: 0 0 11px 2px #00000069;
+  border-radius: 5px;
+  backdrop-filter: blur(5px); /*Pour rendre la card floue*/
+}
+
+/* Les bifore et les after sont souvent accolés à une balise HTML. On met une chose devant ou derrière une balise html. Sur la carte ici par exemple, on peut le mettre en haut (.card:before) ou en bas de la carte(.card:after). Cet pseudo élément doit toujours avoir un centent. Je suis aaller sur le site html symbols pour prendre le code css d'une étoile pour le mettre dans content. On intègre les choses directement depuis le css*/
+
+.Card:before {
+  content: "\2730";
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  font-size: 2.4rem; /*Pour faire grossir les icones, on fait une font-size et non pas les height ou width*/
+}
+
+h1 {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+/* Là, on va créer une barre horizontale après le h1. Pour le faire, il faut utiliser un :after ou un :before, sachant qu'ils prennent tjrs un content et une position absolute avant tout autre paramétrage*/
+
+h1::after {
+  content: "";
+  position: absolute;
+  background: var(--color1);
+  height: 1px;
+  width: 100%;
+  bottom: -14px;
+  /* Pour l'animation de la barre, dès ici avec le @keyframe qui suivra */
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  animation: h1anim 10s ease-in-out forwards; /*Lent au début et lent à la fin*/
+  /* transform-origin: left; On ajoute cette ligne pour dire que ça doit vnir de la gauche, la barre. Mais par défaut, elle vient du milieu */
+}
+
+@keyframes h1anim {
+  100% {
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+/*Se rendre dans le site bennettfeely.com/clippy pour prendre les figure et les insérer*/
+
+.polygon-container {
+  filter: drop-shadow(-1px 6px 3px var(--color2));
+  /* Pour centrer parfaitement le polygon, il faut mettre le parent en grid et faire un place-self : center */
+  place-self: center left; /*Pour centrer sur la gauche*/
+}
+
+.polygon {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background: pink;
+  height: 100px;
+  background: linear-gradient(
+    135deg,
+    var(--color3) 0%,
+    rgb(255, 187, 0) 20%,
+    red 40%,
+    pink 80%,
+    var(--color2) 100%
+  );
+  /* UN SITE POUR LES GRADIENT: webgradient.com */
+  /* Pour donner une ombre à l'icone du polygone, il faut d'abord passer par son parent avant de lui donner des propriétés. On fait donc au parent un filter : drop-shadow */
+  width: 100px;
+}
+
+.polygon:after {
+  content: "Un texte";
+  position: absolute;
+  color: var(--color2);
+  background: var(--color4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(344deg);
+  width: 90%;
+  padding: 4px;
+  text-align: center;
+}
+
+/*Pour l'écartement entre les ligne on fait : line-height*/
+p {
+  line-height: 26px;
+  margin: 20px 0;
+  /* Ici maintenant, on va paramétrer les lignes du texte d'une card et limiter son nombre. Au-delà du nombre de ligne, on mettra des pointillés */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /*ici je limite le nombre de ligne à 4 dans le block*/
+  overflow: hidden; /*Ici, je rends invisible le reste des lignes du texte*/
+  text-align: justify; /*Ici, je centre le texte*/
+}
+
+/* Quand on sélection un texte, on peut lui donner aussi un background */
+
+p::selection {
+  background: var(--color2);
+  color: var(--color3);
+}
+
+/* On peut créer un comportement sur les checkbox sélectionné */
+.checkbox-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0 30px;
+  /* La perspective, c'est entre 0 et 1000. Plus le nombre est petit, plus c'est marquant au niveau de l'effet. */
+  perspective: 30px;
+}
+
+/* Pour agir sur les checkbox eux-mêmes, la syntaxe sera différente */
+
+/* Quand la checkbox est checkée, elle disparaît */
+/* input[type="checkbox"]:checked{
+    display: none;
+} */
+
+/* A partir de la checkbox que j'ai cliqué, tout le reste doit être en vert */
+/* input[type="checkbox"]:checked ~ label{
+    background: green;
+} */
+
+/* Faire disparaître seulement le label qui suit la checkbox cochée */
+/* input[type="checkbox"]:checked  + label{
+    display: none;
+} */
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked + label {
+  background: var(--color2);
+  color: var(--color3);
+  transform: scale(
+    1.1
+  ); /*Pour grossir les bouton quand ils sont cliqués. Ce truc marche avec transition en bas*/
+  filter: brightness(
+    120%
+  ); /*Pour rendre lumineux les boutons. C'est comme le backdrop-filter, on pourrait ici ajouter par exemple un blur(5px) derrière la parenthèse des 120%*/
+}
+
+label {
+  cursor: pointer;
+  border: 1px solid var(--color1);
+  background: var(--color3);
+  padding: 10px;
+  border-radius: 5px;
+  transition: 0.2s;
+  user-select: none; /*Eviter de sélectionner le texte*/
+}
+
+/* Je veux donner une animation au premier bouton de la checkbox au survol */
+label:first-of-type:hover {
+  animation: label1 1s infinite linear;
+}
+
+@keyframes label1 {
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* lA 3D. Pour la réaliser, il ne faut pas oublier la perspective sur le parent, cad checkbox-container.On va le réaliser ici sur le deuxième bouton qui est en réalité le quatrième enfant dans la console du développeur. On va lui dire qu'au survol, mets-toi en mode 3D. La 3D se fait avec transform : translateZ()*/
+
+label:nth-child(4):hover {
+  animation: label2 3s infinite linear;
+}
+
+@keyframes label2 {
+  33% {
+    transform: translateZ(30px); /*La perspective s'avance vers nous*/
+  }
+  66% {
+    transform: translateZ(-40px); /* La perspective va loin de nous*/
+  }
+  100% {
+    transform: translateZ(0); /*La perpective est à la normale*/
+  }
+}
+
+/* LES FILTRES */
+/* https: //cssgenerator.org/filter-css-generator.html */
+
+.e-mail {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.e-mail input {
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: 3px solid transparent;
+  transition: 0.3s;
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--color1);
+  max-width: 300px;
+  width: 35%;
+  min-width: 180px;
+  /* En faisant à la fois un max-width et un min-width, AVEC LES 35% du width, on n'a plus besoin de faire un @media queri pour le responsif concernant cet élément*/
+}
+
+/* Les pseudo classes : focus et faceholder */
+
+/* Là, je vais dire que quand l'utilisaateur écrit sur le champ input de type texte, il faut avoir tel comportement. */
+input[type="text"]:focus {
+  background: transparent;
+  border: 3px solid var(--color2);
+  border-radius: 150px;
+}
+
+input[type="text"]::placeholder {
+  color: var(--color2);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+button {
+  cursor: pointer;
+  background: var(--color2);
+  border: none;
+  font-size: 1.3rem;
+  padding: 10px 20px;
+  border-radius: 150px;
+  margin: 0 auto; /*Cela n'est pas suffisant pour centrer le bouton. Car il n'est pas en display: block. Il faut donc lui ajouter display : block */
+  display: block;
+  transition: 0.1s; /*Il faut tjrs mettre la transition dans l'élément principal et mettre le hover de l'élément après*/
+}
+
+button:hover {
+  letter-spacing: 3px;
+}
+
+/* Pour faire grossir le bouton au moment du clic, quand la souris est appuyée encore, on utilise active, avec un transforme : scale() */
+button:active {
+  transform: scale(1.2);
+  background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+}
+
+button:hover + a,
+a:hover {
+  opacity: 1; /*Le lien a devient  visible quand on survole le btn valider ou survole le lien lui-même*/
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Pour cliquer un lien sans que sa couleur ne change. */
+a {
+  color: var(--color1);
+  text-align: center; /*Parce qu'il est d'emblée en inline-block, on arrive pas à le centrer ici. Il faut donc lui ajouter un display:block*/
+  display: block;
+  padding: 10px;
+  /* ici en bas, on va rendre invisible les lien des conditions générale. Il ne deviendra visible que lorsqu'on survole le button valider. Cette partie est à mettre en relation avec le button : hover +a qui lui précède juste un pas au-dessus */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: 0.3s;
+}
+
+a:visited {
+  color: var(--color1);
+}
+
+img {
+  height: 40px;
+  position: absolute;
+  filter: drop-shadow(0px 6px 3px rgba(255, 255, 0, 0.6));
+  /* A partir d'ici, nous allons faire en sorte que le vaisseau set trouve derrière la card, grâce au z-index avec un chiffre négatif. Si on met un chiffre positif, il sera devant la card */
+  z-index: -1;
+  animation: spaceship 40s infinite linear;
+}
+@keyframes spaceship {
+  0% {
+    top: 2%;
+    left: 2%;
+    transform: rotate(90deg);
+  }
+  10% {
+    top: 6%;
+    left: 30%;
+    transform: rotate(95deg);
+  }
+  20% {
+    top: 9%;
+    left: 60%;
+    transform: rotate(60deg);
+  }
+  30% {
+    top: 0%;
+    left: 80%;
+    transform: rotate(90deg);
+  }
+  40% {
+    top: 20%;
+    left: 120%;
+    transform: rotate(110deg);
+  }
+  50% {
+    top: 50%;
+    left: 80%;
+    transform: rotate(323deg);
+  }
+  60% {
+    top: 90%;
+    left: 90%;
+    transform: rotate(256deg);
+  }
+  70% {
+    top: 110%;
+    left: 30%;
+    transform: rotate(237deg);
+  }
+  80% {
+    top: 85%;
+    left: 15%;
+    transform: rotate(323deg);
+  }
+  90% {
+    top: 50%;
+    left: 2%;
+    transform: rotate(350deg);
+  }
+  100% {
+    top: 2%;
+    left: 2%;
+    transform: rotate(90deg);
+  }
+}
